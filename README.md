@@ -1,7 +1,7 @@
 # Day 11 — Controlled Agent Security (2026)
 
 > 👤 **Hình thức:** bài tập **cá nhân** (1 người / 1 MSSV).  
-> 🎯 **Mục tiêu:** xây **Blue** (phòng thủ), rồi red-team **Red** + **Red Advance**.  
+> 🎯 **Mục tiêu:** đóng vai **Blue Team** để học cách xây Guardrails phòng thủ, rồi đóng vai **Red Team** để tấn công agent **Red** hoặc **Red Advance**.  
 > ✅ Làm theo **Checkpoint 1 → 5** trong [`CHECKPOINTS.md`](CHECKPOINTS.md) · nộp theo [`SUBMISSION.md`](SUBMISSION.md).
 
 ---
@@ -23,26 +23,42 @@
 1. Máy có **Python 3.10+** (khuyến nghị 3.11 hoặc 3.12) và Git.
 2. Tài khoản GitHub cá nhân (để fork + đổi tên repo nộp).
 3. API keys:
-   - **Blue (bắt buộc):** [OpenRouter](https://openrouter.ai/keys) — model cố định [`liquid/lfm-2.5-2.6b`](https://openrouter.ai/liquid/lfm-2.5-2.6b)
+   - **Blue (bắt buộc):** [OpenRouter](https://openrouter.ai/keys) — model cố định [`liquid/lfm-2.5-2.6b:free`](https://openrouter.ai/liquid/lfm-2.5-2.6b:free)
    - **Red (chọn một provider):** [OpenAI](https://platform.openai.com/api-keys) (`gpt-4o-mini`) **hoặc** [Google AI Studio](https://aistudio.google.com/apikey) (`gemini-3.5-flash`)
 4. Đọc nhanh [`RULES.md`](RULES.md) và [`RUBRIC.md`](RUBRIC.md).
 
+### Hai vai bạn sẽ đóng
+
+Bạn làm bài một mình, nhưng lần lượt vào **hai vai**. Tên vai và tên agent là hai thứ khác nhau.
+
+**Blue Team (Checkpoint 2–3) — xây Guardrails phòng thủ.**  
+Bạn học cách viết lớp chặn trước và sau model: lọc prompt độc, che secret / PII, giới hạn số lần gọi, ghi audit. Agent bạn tự code tên là **Blue**. Chạy xong ra `outputs/results.json`.
+
+**Red Team (Checkpoint 4) — đi tấn công.**  
+Bạn viết câu tấn công nhằm vào agent **có sẵn**. Chọn một trong hai mục tiêu:
+
+- **Red** — phòng thủ yếu (lab đã viết sẵn).
+- **Red Advance** — phòng thủ cứng: regex + NVIDIA NeMo Guardrails (lab đã viết sẵn).
+
+Checkpoint 4 chạy tấn công **Red**, rồi **Red Advance**. Blue không phải mục tiêu của bước này.
+
 ### Ba agent (đặt tên thống nhất)
 
-| Tên gọi | Code / file | Bạn làm gì? | Checkpoint |
-|---------|-------------|-------------|------------|
-| **Blue** | `create_blue_agent(plugins)` + pipeline CP2–3 | **Bạn code** guardrails / rate limit / audit → phòng thủ | CP2–3 → `results.json` |
-| **Red** | `create_red_agent_default()` | Có sẵn, **mềm** — leak trong 20đ; bonus B1 tối đa +5 (chọn 1) | CP4 |
-| **Red Advance** | `create_red_agent_advance()` | Có sẵn, **cứng** — regex + **NVIDIA NeMo Guardrails**; leak = bonus B2 tối đa +10 (chọn 1) | CP4 (bonus) |
+| Tên gọi | Đây là | Code / file | Checkpoint |
+|---------|--------|-------------|------------|
+| **Blue** | Agent bạn tự code khi đóng vai **Blue Team** | `create_blue_agent(plugins)` + pipeline CP2–3 | CP2–3 → `results.json` |
+| **Red** | Mục tiêu tấn công khi đóng vai **Red Team** — phòng thủ yếu, có sẵn | `create_red_agent_default()` | CP4 (20đ; bonus B1 tối đa +5) |
+| **Red Advance** | Mục tiêu tấn công khi đóng vai **Red Team** — phòng thủ cứng, có sẵn | `create_red_agent_advance()` | CP4 (bonus B2 tối đa +10) |
 
-> **Không** tấn công Blue ở CP4. CP4 chỉ chạy **Red** rồi **Red Advance**.  
-> Trong JSON / log vẫn có thể thấy `unsafe` / `guards` / `protected` — đó là **tên kỹ thuật** cũ, map đúng bảng trên.
+Bonus lab chỉ tính **một** trong hai: leak **Red** (B1, tối đa +5) hoặc leak **Red Advance** (B2, tối đa +10).
 
-| Vai trò | Provider / model |
-|---------|------------------|
-| **Blue** | OpenRouter **`liquid/lfm-2.5-2.6b`** (khóa cứng) |
+> Trong JSON / log vẫn có thể thấy `unsafe` / `guards` / `protected` — đó là **tên kỹ thuật** cũ: `unsafe` = **Red**, `guards` = **Red Advance**, `protected` = **Blue**.
+
+| Agent                     | Provider / model                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| **Blue**                  | OpenRouter `liquid/lfm-2.5-2.6b:free` (khóa cứng)                                         |
 | **Red** + **Red Advance** | Cùng provider: `gpt-4o-mini` **hoặc** `gemini-3.5-flash` (model mềm — điểm bắt buộc) |
-| Model khó (tuỳ chọn) | `gpt-5.6-luna` / `gemini-3.8-flash` — **không** phải tên agent |
+| Model khó (tuỳ chọn)      | `gpt-5.6-luna` / `gemini-3.8-flash` — **không** phải tên agent                       |
 
 ---
 
@@ -59,8 +75,8 @@
 
 Codelab lớp: xem `template-codelabs/codelab-day11-k4-l3a.md` (L3A) hoặc bản L3B tương ứng.
 
-**Repo nộp học viên:** `K4-L3-DAY11-<HoVaTen>-<MSSV>-Guardrails-HITL-Responsible-AI`  
-Ví dụ: `K4-L3-DAY11-NguyenVanA-2A2026xxxxx-Guardrails-HITL-Responsible-AI`
+**Repo nộp học viên:** `K4-<L3A hoặc L3B>-DAY11-<HoVaTen>-<MSSV>-Guardrails-HITL-Responsible-AI`  
+Ví dụ: `K4-L3A-DAY11-NguyenVanA-2A2026xxxxx-Guardrails-HITL-Responsible-AI`
 
 ---
 
@@ -117,7 +133,7 @@ User → L1 Regex input → L2 NeMo input rails → LLM → L3 Regex output → 
 
 Chi tiết tiêu chí, điều kiện mất điểm, grader replay: [`RUBRIC.md`](RUBRIC.md).
 
-Thứ tự làm: **Setup → Blue (phòng thủ) → Red (tấn công) → nộp**.
+Thứ tự làm: **Setup → Blue Team (xây Guardrails phòng thủ) → Red Team (tấn công Red hoặc Red Advance) → nộp**.
 
 ---
 

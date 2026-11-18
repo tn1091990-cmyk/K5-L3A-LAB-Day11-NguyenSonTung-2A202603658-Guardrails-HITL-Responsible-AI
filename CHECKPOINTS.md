@@ -5,15 +5,24 @@
 > 📂 **Không tự tạo file JSON trong** `outputs/` **bằng tay.** Folder và file kết quả được **sinh khi bạn chạy lệnh**.  
 > ▶️ Mọi lệnh lab chạy từ **gốc repo** (nơi có `README.md`): `python src/main.py --part N` — **không** cần `cd src`.
 
+### Hai vai (đọc trước khi làm)
+
+Bạn lần lượt đóng **hai vai**. Tên vai và tên agent là hai thứ khác nhau.
+
+- **Blue Team (Checkpoint 2–3):** học cách **xây Guardrails phòng thủ** — lọc prompt, che secret / PII, rate limit, audit. Agent bạn tự code tên là **Blue**. Kết quả nằm ở `outputs/results.json`.
+- **Red Team (Checkpoint 4):** đi **tấn công** agent có sẵn. Mục tiêu là **Red** (phòng thủ yếu) hoặc **Red Advance** (phòng thủ cứng: regex + NVIDIA NeMo Guardrails). Checkpoint 4 chạy **Red**, rồi **Red Advance**. Blue không phải mục tiêu của bước này.
+
 ### Ba agent (nhớ bảng này)
 
 | Tên gọi | Code | Vai trò |
 |---------|------|---------|
-| **Blue** | `create_blue_agent(plugins)` + code CP2–3 | Bạn **code** phòng thủ → `results.json` |
-| **Red** | `create_red_agent_default()` | Có sẵn, mềm — CP4 leak (20đ); bonus B1 tối đa +5 (chọn 1) |
-| **Red Advance** | `create_red_agent_advance()` | Có sẵn, cứng (regex + NVIDIA NeMo Guardrails) — bonus B2 tối đa +10 (chọn 1) |
+| **Blue** | `create_blue_agent(plugins)` + code CP2–3 | Agent của **Blue Team** — bạn code Guardrails phòng thủ → `results.json` |
+| **Red** | `create_red_agent_default()` | Mục tiêu của **Red Team** — có sẵn, phòng thủ yếu. CP4 leak (20đ); bonus B1 tối đa +5 |
+| **Red Advance** | `create_red_agent_advance()` | Mục tiêu của **Red Team** — có sẵn, phòng thủ cứng. Bonus B2 tối đa +10 |
 
-> CP4 **không** tấn công Blue. File JSON vẫn dùng khóa kỹ thuật `unsafe_*` / `guards_*` (= **Red** / **Red Advance**).
+Bonus lab chỉ tính **một**: leak **Red** (B1) hoặc leak **Red Advance** (B2).
+
+> File JSON vẫn dùng khóa kỹ thuật `unsafe_*` / `guards_*` / `protected_*` (= **Red** / **Red Advance** / **Blue**).
 
 ---
 
@@ -98,7 +107,7 @@ Máy chạy được Python lab + có key **OpenRouter** (Blue) và key **OpenAI
 2. Clone repo (đã đổi tên) về máy; mở terminal tại **thư mục gốc** repo.
 3. Tạo & kích hoạt virtualenv, cài dependency.
 4. Copy `.env.example` → `.env`:
-  - **Blue (cố định):** `OPENROUTER_API_KEY` — model khóa `liquid/lfm-2.5-2.6b`
+  - **Blue (cố định):** `OPENROUTER_API_KEY` — model khóa `liquid/lfm-2.5-2.6b:free`
   - **Red (chọn một):** `RED_TEAM_PROVIDER=openai` + `OPENAI_API_KEY` (`gpt-4o-mini`)  
     **hoặc** `RED_TEAM_PROVIDER=gemini` + `GOOGLE_API_KEY` (`gemini-3.5-flash`)
 5. (Tuỳ chọn) Model khó khi săn bonus: `OPENAI_MODEL=gpt-5.6-luna` hoặc `GEMINI_MODEL=gemini-3.8-flash` — **không** đổi tên agent.
@@ -131,7 +140,7 @@ pip install -r requirements.txt
 ### Cần hiểu gì?
 
 - Lab chạy **local**.  
-  **Blue** luôn dùng OpenRouter `liquid/lfm-2.5-2.6b`.  *Open-weight Model, chạy local bằng llamcpp, sửa file src/core/config.py*
+  **Blue** luôn dùng OpenRouter `liquid/lfm-2.5-2.6b:free`.  
   **Red** + **Red Advance** cùng provider: `gpt-4o-mini` hoặc `gemini-3.5-flash`.  
   Bonus: chọn **một** — leak **Red** tối đa +5 **hoặc** leak **Red Advance** tối đa +10 (**không** cộng cả hai).
 - **Red** cố ý “mềm”; **Red Advance** vẫn cứng: regex **+ NVIDIA NeMo Guardrails** (thư viện `nemoguardrails`, đã có trong `requirements.txt` — thiếu thì Red Advance báo lỗi, không tự lùi về regex).

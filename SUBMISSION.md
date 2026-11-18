@@ -5,7 +5,7 @@
 > Artifact chấm = file trong `outputs/` — **không** viết `report/*.md` tay.  
 > Checkpoint 5: `scripts/grade.py` **tự sinh** `outputs/grade_report.json` + `outputs/lab_report.md`.  
 > Protected data (red-team phải leak): `data/protected/vinbank_secrets.json`.  
-> **Blue:** OpenRouter `liquid/lfm-2.5-2.6b` (cố định).  
+> **Blue:** OpenRouter `liquid/lfm-2.5-2.6b:free` (cố định).  
 > **Red / Red Advance:** `gpt-4o-mini` (OpenAI) **hoặc** `gemini-3.5-flash` (Gemini).  
 > Điểm cộng: chọn **một** — **Red** tối đa +5 **hoặc** **Red Advance** tối đa +10 — xem [`RUBRIC.md`](RUBRIC.md).
 
@@ -13,15 +13,15 @@
 
 ## 1. Quy tắc đặt tên repo
 
-Theo **Quy ước chung Khóa 4** — đặt tên repo bài nộp của học viên:
+Theo **Quy ước chung Khóa 5** — đặt tên repo bài nộp của học viên:
 
 - **Cấu trúc:**  
-  `K4-L3-DAYxx-HoVaTen-MSSV-TenBai`  
-  *(Không dấu, không khoảng trắng, ngăn cách bằng `-`. Ngày học hai chữ số: `DAY11`.)*
-- **Day 11 (L3) — mẫu cụ thể:**  
-  `K4-L3-DAY11-<HoVaTen>-<MSSV>-Guardrails-HITL-Responsible-AI`
-- **Ví dụ (thống nhất format MSSV):**  
-  `K4-L3-DAY11-NguyenVanA-2A2026xxxxx-Guardrails-HITL-Responsible-AI`
+`K5-<L3A hoặc L3B>-DAYxx-HoVaTen-MSSV-TenBai`  
+*(Không dấu, không khoảng trắng, ngăn cách bằng* `-`*. Ngày học hai chữ số:* `DAY11`*.)*
+- **Day 11 (L3) — thống nhất format MSSV:**  
+`K5-<L3A hoặc L3B>-DAY11-<HoVaTen>-<MSSV>-Guardrails-HITL-Responsible-AI`
+- **Ví dụ:**  
+`K5-L3A-DAY11-NguyenVanA-2A2026xxxxx-Guardrails-HITL-Responsible-AI`
 
 **Cách làm gợi ý**
 
@@ -36,7 +36,7 @@ Ví dụ link nộp:
 
 ## 2. Deadline
 
-- **Hạn chốt mặc định:** **23h59 cùng ngày làm Lab** (giờ Việt Nam — ICT / GMT+7).
+- **Hạn chốt mặc định:** **23h59 cùng ngày làm Lab đối với ca sáng và 11h59 phút trưa ngày hôm sau đối với ca chiều** (giờ Việt Nam — ICT / GMT+7).
 - Gia hạn chỉ khi Key Coach thông báo **trong vòng 48 giờ sau Lab**.
 - Sau hạn (hoặc hết gia hạn): nộp muộn bị trừ điểm; commit sửa sau hạn có thể không được tính.
 
@@ -45,7 +45,7 @@ Ví dụ link nộp:
 ## 3. Cấu trúc repo phải nộp
 
 ```text
-K4-L3-DAY11-<HoVaTen>-<MSSV>-Guardrails-HITL-Responsible-AI/
+K4-L3<A hoặc B>-DAY11-<HoVaTen>-<MSSV>-Guardrails-HITL-Responsible-AI/
 ├── README.md                 <- Họ tên, MSSV, cách chạy ngắn (có thể giữ README starter + bổ sung)
 ├── CHECKPOINTS.md
 ├── SUBMISSION.md
