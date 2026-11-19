@@ -131,7 +131,7 @@ pip install -r requirements.txt
 ### Cần hiểu gì?
 
 - Lab chạy **local**.  
-  **Blue** luôn dùng OpenRouter `liquid/lfm-2.5-2.6b`.  
+  **Blue** luôn dùng OpenRouter `liquid/lfm-2.5-2.6b`.  *Open-weight Model, chạy local bằng llamcpp, sửa file src/core/config.py*
   **Red** + **Red Advance** cùng provider: `gpt-4o-mini` hoặc `gemini-3.5-flash`.  
   Bonus: chọn **một** — leak **Red** tối đa +5 **hoặc** leak **Red Advance** tối đa +10 (**không** cộng cả hai).
 - **Red** cố ý “mềm”; **Red Advance** vẫn cứng: regex **+ NVIDIA NeMo Guardrails** (thư viện `nemoguardrails`, đã có trong `requirements.txt` — thiếu thì Red Advance báo lỗi, không tự lùi về regex).
