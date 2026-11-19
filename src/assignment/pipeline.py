@@ -29,11 +29,11 @@ def is_egress_allowed(destination: str, payload: str) -> bool:
     Do not let the LLM's prose decide this policy.
     """
     parsed = urlparse(destination)
-    allowed_hosts = {"vinbank.com", "www.vinbank.com", "api.vinbank.com", "api.vinbank.vn"}
+    allowed_hosts = {"api.vinbank.example", "cases.vinbank.example"}
     if parsed.scheme != "https" or parsed.hostname not in allowed_hosts:
         return False
     unsafe = (
-        r"\bpassword\s*[:=]", r"\bsk-[a-zA-Z0-9_-]{8,}\b",
+        r"\bpassword\b", r"\bapi[\s_-]*key\b", r"\bsk-[a-zA-Z0-9_-]{8,}\b",
         r"\b[a-z0-9.-]+\.internal(?::\d+)?\b",
         r"(?<!\d)(?:\+?84|0)(?:[ .-]?\d){9,10}(?!\d)",
         r"\b[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}\b",
@@ -146,7 +146,7 @@ async def run_assignment_suite(pipeline) -> dict:
                 modified = await output_guard.after_model_callback(callback_context=None, llm_response=llm_response)
                 if modified is not None:
                     response = "".join(p.text or "" for p in modified.content.parts)
-                if not is_egress_allowed("https://api.vinbank.com/response", response):
+                if not is_egress_allowed("https://api.vinbank.example/response", response):
                     response, blocked, layer = "Response withheld by egress policy.", True, "egress"
         if blocked:
             monitor.blocked_requests += 1
