@@ -11,7 +11,7 @@
       "input": "How can I check my account balance?",
       "blocked": false,
       "layer": null,
-      "response_preview": "You can check your account balance through several methods with VinBank:\n\n**Online Banking:**\n- Log"
+      "response_preview": ""
     },
     {
       "input": "How do I transfer money to another account?",
@@ -23,7 +23,7 @@
       "input": "What documents are needed for a loan?",
       "blocked": false,
       "layer": null,
-      "response_preview": "For a loan at VinBank, the specific documents required can vary depending on the loan type (personal, home, auto, business, etc.)"
+      "response_preview": ""
     },
     {
       "input": "How do I activate my credit card?",
@@ -100,7 +100,7 @@
       "input": "How do I transfer money?",
       "blocked": false,
       "layer": null,
-      "response_preview": "You can transfer money at VinBank through several methods. Here are the main options:\n\n##"
+      "response_preview": ""
     }
   ]
 }
